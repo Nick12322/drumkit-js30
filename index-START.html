@@ -61,19 +61,27 @@
 
   <script>
     window.addEventListener('keydown', function (press) {
-      const key = document.getElementsByClassName('key')
+      // const key = document.getElementsByClassName(`key`)
+      const key = document.querySelector(`.key[data-key="${press.keyCode}"]`)
       console.log(key)
-      console.log(press)
+      // console.log(press)
       console.log(press.keyCode)
-      const audio = document.getElementsByTagName('audio')
+      const audio = document.querySelector(`audio[data-key="${press.keyCode}"]`)
       console.log(audio)
-      for (var i = 0; i < 9; i++){
-      if (press.keyCode === parseInt(key[i].attributes[0].nodeValue)) {
-        console.log(key[i].children[1].innerText)
-        audio[i].play()
+      audio.currentTime = 0;
+      key.classList.add("playing")
+      audio.play()
+    })
+
+    function removeTransition(event) {
+      console.log(event)
+      if (event.propertyName !== 'transitionend') {
+      this.classList.remove("playing")
       }
     }
-  })
+
+    const keys = document.querySelectorAll('.key');
+      keys.forEach(key => key.addEventListener('transitionend', removeTransition) )
   </script>
 
 
